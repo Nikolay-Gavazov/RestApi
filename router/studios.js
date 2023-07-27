@@ -4,7 +4,7 @@ const { auth } = require('../utils');
 const { commentController } = require('../controllers');
 const { studiosController } = require('../controllers');
 // middleware that is specific to this router
-studiosController.
+
 router.get('/', studiosController.getStudios);
 router.post('/', /* auth(), */ studiosController.createStudio);
 
