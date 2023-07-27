@@ -1,5 +1,4 @@
 const { studioModel } = require('../models');
-const { newPost } = require('./commentController')
 
 function getStudios(req, res, next) {
     studioModel.find()
@@ -26,12 +25,8 @@ function createStudio(req, res, next) {
     const { studioName, img, description } = req.body;
     const { _id: userId } = 123 /* req.user */;
 
-    studioModel.create({ studioName, userId })
-        .then(theme => {
-            newPost(postText, userId, theme._id)
-                .then(([_, updatedTheme]) => res.status(200).json(updatedTheme))
-        })
-        .catch(next);
+    studioModel.create({ studioName, userId , img, description }).then(studio => res.json(studio)).catch(next)
+        
 }
 
 
