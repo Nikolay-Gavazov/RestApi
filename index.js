@@ -15,7 +15,9 @@ dbConnector()
 
     app.use(cors({
       origin: config.origin,
-      credentials: true
+      credentials: true,
+      
+      
     }));
 
     app.use('/api', apiRouter);

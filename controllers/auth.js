@@ -58,7 +58,7 @@ function login(req, res, next) {
             user = removePassword(user);
 
             const token = utils.jwt.createToken({ id: user._id });
-                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
+                res.cookie(authCookieName, token, { httpOnly: true, secure: true })
            
             res.status(200)
                 .send(user);
@@ -82,7 +82,7 @@ function getProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
 
     userModel.findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v
-        .then(user => { res.status(200).json(user) })
+        .then(user => { res.status(200,).json(user) })
         .catch(next);
 }
 
