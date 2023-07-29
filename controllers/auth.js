@@ -58,7 +58,7 @@ function login(req, res, next) {
             user = removePassword(user);
 
             const token = utils.jwt.createToken({ id: user._id });
-                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none',})
+                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
            
             res.status(200)
                 .send(user);
