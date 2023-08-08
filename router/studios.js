@@ -8,10 +8,10 @@ const { studiosController } = require('../controllers');
 router.get('/', studiosController.getStudios);
 router.post('/', /* auth(), */ studiosController.createStudio);
 
-router.get('/:studioId', studiosController.getStudio);
-router.post('/:studioId', /* auth(), */ commentController.createComment);
-router.put('/:studio/comments/:commentId', auth(), commentController.editComment);
-router.delete('/:studio/comments/:commentId', auth(), commentController.deleteComment);
+router.get('/:id', studiosController.getStudio);
+router.post('/comments/:id', /* auth(), */ commentController.createComment);
+router.put('/studio/comments/:commentId', auth(), commentController.editComment);
+router.delete('/studio/comments/:commentId', auth(), commentController.deleteComment);
 
 
 module.exports = router
