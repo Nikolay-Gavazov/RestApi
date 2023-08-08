@@ -2,9 +2,8 @@ const {
     userModel,
     tokenBlacklistModel
 } = require('../models');
-
 const utils = require('../utils');
-const { authCookieName } = require('../app-config');
+
 
 const bsonToJson = (data) => { return JSON.parse(JSON.stringify(data)) };
 const removePassword = (data) => {
@@ -21,11 +20,9 @@ function register(req, res, next) {
             createdUser = removePassword(createdUser);
 
             const token = utils.jwt.createToken({ id: createdUser._id });
-            
-                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
-           
+            createdUser.token = token;
             res.status(200)
-                .send(createdUser);
+                .json(createdUser);
         })
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
@@ -58,21 +55,19 @@ function login(req, res, next) {
             user = removePassword(user);
 
             const token = utils.jwt.createToken({ id: user._id });
-                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
-           
+            createdUser.token = token;
             res.status(200)
-                .send(user);
+                .json(createdUser);
         })
         .catch(next);
 }
 
 function logout(req, res) {
-    const token = req.cookies[authCookieName];
+    const token = req.user.token
 
     tokenBlacklistModel.create({ token })
         .then(() => {
-            res.clearCookie(authCookieName)
-                .status(204)
+            res.status(200)
                 .send({ message: 'Logged out!' });
         })
         .catch(err => res.send(err));

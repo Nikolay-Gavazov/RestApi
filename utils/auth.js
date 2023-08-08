@@ -1,5 +1,4 @@
 const jwt = require('./jwt');
-const { authCookieName } = require('../app-config');
 const {
     userModel,
     tokenBlacklistModel
@@ -8,7 +7,7 @@ const {
 function auth(redirectUnauthenticated = true) {
 
     return function (req, res, next) {
-        const token = req.cookies[authCookieName] || '';
+        const token = req.user.token || '';
         Promise.all([
             jwt.verifyToken(token),
             tokenBlacklistModel.findOne({ token })
