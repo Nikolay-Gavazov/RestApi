@@ -3,6 +3,7 @@ const {
     tokenBlacklistModel
 } = require('../models');
 const utils = require('../utils');
+const { authCookieName } = require('../app-config');
 
 
 const bsonToJson = (data) => { return JSON.parse(JSON.stringify(data)) };
@@ -20,6 +21,7 @@ function register(req, res, next) {
             createdUser = removePassword(createdUser);
 
             const token = utils.jwt.createToken({ id: createdUser._id });
+            res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
             createdUser.token = token;
             res.status(200)
                 .json(createdUser);
@@ -55,9 +57,10 @@ function login(req, res, next) {
             user = removePassword(user);
 
             const token = utils.jwt.createToken({ id: user._id });
-            createdUser.token = token;
-            res.status(200)
-                .json(createdUser);
+                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
+                createdUser.token = token;
+                res.status(200)
+                    .json(createdUser);
         })
         .catch(next);
 }
@@ -67,7 +70,8 @@ function logout(req, res) {
 
     tokenBlacklistModel.create({ token })
         .then(() => {
-            res.status(200)
+            res.clearCookie(authCookieName)
+                .status(204)
                 .send({ message: 'Logged out!' });
         })
         .catch(err => res.send(err));
