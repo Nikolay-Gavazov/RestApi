@@ -2,9 +2,9 @@ const {
     userModel,
     tokenBlacklistModel
 } = require('../models');
+
 const utils = require('../utils');
 const { authCookieName } = require('../app-config');
-
 
 const bsonToJson = (data) => { return JSON.parse(JSON.stringify(data)) };
 const removePassword = (data) => {
@@ -21,10 +21,11 @@ function register(req, res, next) {
             createdUser = removePassword(createdUser);
 
             const token = utils.jwt.createToken({ id: createdUser._id });
-            res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
-            createdUser.token = token;
+            
+                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
+           
             res.status(200)
-                .json(createdUser);
+                .send(createdUser);
         })
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
@@ -57,16 +58,16 @@ function login(req, res, next) {
             user = removePassword(user);
 
             const token = utils.jwt.createToken({ id: user._id });
-                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none', path: '/' });
-                createdUser.token = token;
-                res.status(200)
-                    .json(createdUser);
+                res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none'})
+           
+            res.status(200)
+                .send(user);
         })
         .catch(next);
 }
 
 function logout(req, res) {
-    const token = req.user.token
+    const token = req.cookies[authCookieName];
 
     tokenBlacklistModel.create({ token })
         .then(() => {
