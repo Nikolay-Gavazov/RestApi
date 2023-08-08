@@ -8,15 +8,9 @@ function getStudios(req, res, next) {
 }
 
 function getStudio(req, res, next) {
-    const { studioId } = req.params;
+    const { _id } = req.params;
 
-    studioModel.findById(studioId)
-        .populate({
-            path : 'comments',
-            populate : {
-              path : 'userId'
-            }
-          })
+    studioModel.findById(_id)
         .then(studio => res.json(studio))
         .catch(next);
 }
