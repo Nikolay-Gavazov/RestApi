@@ -8,9 +8,9 @@ function getStudios(req, res, next) {
 }
 
 function getStudio(req, res, next) {
-    const { _id } = req.params;
+    const { id } = req.params;
 
-    studioModel.findById(_id)
+    studioModel.findById(id)
         .then(studio => res.json(studio))
         .catch(next);
 }
