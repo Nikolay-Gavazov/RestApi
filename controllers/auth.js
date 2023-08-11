@@ -16,16 +16,16 @@ function register(req, res, next) {
     const {  email, password } = req.body;
 
     return userModel.create({ email, password })
-        .then((createdUser) => {
-            createdUser = bsonToJson(createdUser);
-            createdUser = removePassword(createdUser);
+        .then((user) => {
+            user = bsonToJson(user);
+            user = removePassword(user);
 
-            const token = utils.jwt.createToken({ id: createdUser._id });
+            const token = utils.jwt.createToken({ id: user._id });
             
                 res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
-           
+                user.token = token;
             res.status(200)
-                .send(createdUser);
+                .send(user);
         })
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
@@ -59,7 +59,7 @@ function login(req, res, next) {
 
             const token = utils.jwt.createToken({ id: user._id });
                 res.cookie(authCookieName, token, { httpOnly: true, secure: true,sameSite: 'none'})
-           
+            user.token = token;
             res.status(200)
                 .send(user);
         })
