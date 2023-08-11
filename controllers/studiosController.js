@@ -27,6 +27,13 @@ function createStudio(req, res, next) {
     studioModel.create({ studioName, img, description }).then(studio => res.json(studio)).catch(next)
         
 }
+function deleteStudio(req, res, next) {
+    const { id } = req.params;
+
+    studioModel.findOneAndDelete(id)
+        .then(studio => res.json(studio))
+        .catch(next);
+}
 
 
 
@@ -34,5 +41,6 @@ module.exports = {
     getStudio,
     getStudios,
     createStudio,
-    editStudio
+    editStudio,
+    deleteStudio
 }

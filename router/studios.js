@@ -7,7 +7,7 @@ const { studiosController } = require('../controllers');
 
 router.get('/', studiosController.getStudios);
 router.post('/', /* auth(), */ studiosController.createStudio);
-
+router.delete('/delete/:id', studiosController.deleteStudio);
 router.get('/:id', studiosController.getStudio);
 router.post('/comments/:id', /* auth(), */ commentController.createComment);
 router.put('/edit/:id', /* auth(), */ studiosController.editStudio);
