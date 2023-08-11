@@ -23,9 +23,9 @@ function editStudio(req, res, next) {
 }
 function createStudio(req, res, next) {
     const { studioName, img, description } = req.body;
-    const { _id: userId } = req.user;
+    
 
-    studioModel.create({ studioName, userId , img, description }).then(studio => res.json(studio)).catch(next)
+    studioModel.create({ studioName , img, description }).then(studio => res.json(studio)).catch(next)
         
 }
 
