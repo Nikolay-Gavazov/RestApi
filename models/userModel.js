@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
     comments: [{
         type: ObjectId,
         ref: "Comment"}],
-    isAdmin: Boolean
+    isAdmin:{
+        type: Boolean,
+    }
+    
 })
 
 userSchema.methods = {
