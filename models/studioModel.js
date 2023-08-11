@@ -18,6 +18,10 @@ const studioSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "Comment"
     }],
+    userId: {
+        type: ObjectId,
+        ref: "User"
+    }
 })
 
 module.exports = mongoose.model('Studio', studioSchema);
