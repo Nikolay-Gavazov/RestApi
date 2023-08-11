@@ -10,7 +10,7 @@ router.post('/', /* auth(), */ studiosController.createStudio);
 
 router.get('/:id', studiosController.getStudio);
 router.post('/comments/:id', /* auth(), */ commentController.createComment);
-router.put('/:id', auth(), studiosController.editStudio);
+router.put('/edit/:id', /* auth(), */ studiosController.editStudio);
 router.put('/studio/comments/:commentId', auth(), commentController.editComment);
 router.delete('/studio/comments/:commentId', auth(), commentController.deleteComment);
 
