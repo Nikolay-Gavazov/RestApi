@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
     },
     comments: [{
         type: ObjectId,
-        ref: "Comment"}]
+        ref: "Comment"}],
+    isAdmin: Boolean
 })
 
 userSchema.methods = {
