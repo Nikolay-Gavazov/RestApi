@@ -9,7 +9,7 @@ const config = {
     production: {
         port: 3000,
         dbURL: 'mongodb+srv://Nikeca1991:Zer0mancer@cluster0.f8lwx2u.mongodb.net/',
-        origin: ["https://sozopolistudios.web.app",'http://localhost:4200']
+        origin: ["https://sozopolistudios.web.app",'http://localhost:4200', 'http://localhost:5173']
     }
 };
 
